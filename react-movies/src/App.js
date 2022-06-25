@@ -1,10 +1,16 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Home from "./pages/Home";
+import UserList from './pages/UserList';
 
 const App = () => {
   return (
-    <div>
-      <h1>Hello react</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<Home />} />
+        <Route path="/coup-de-coeur" element={<UserList />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
