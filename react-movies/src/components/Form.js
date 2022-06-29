@@ -5,6 +5,7 @@ import Card from "./Card";
 const Form = () => {
   const [moviesData, setMoviesData] = useState([]);
   const [search, setSearch] = useState("code");
+  const [sortGoodBad, setSortGoodBad] = useState(null);
 
   useEffect(() => {
     axios.get(`https://api.themoviedb.org/3/search/movie?api_key=33a2f6344efc17ed3f1a2c243e2f2081&query=${search}&language=fr-FR`
@@ -25,10 +26,10 @@ const Form = () => {
         </form>
 
         <div className="btn-sort-container">
-            <div className="btn-sort" id="goodToBad">
+            <div className="btn-sort" id="goodToBad" onClick={() => setSortGoodBad("goodToBad")}>
                 Top<span>&#8594;</span>
             </div>
-            <div className="btn-sort" id="badToGood">
+            <div className="btn-sort" id="badToGood" onClick={() => setSortGoodBad("badToGood")}>
                 Flop<span>&#8594;</span>
             </div>
         </div>
@@ -36,6 +37,13 @@ const Form = () => {
       <div className="result">
         {moviesData
         .slice(0,12)
+        .sort((a, b) => {
+          if (sortGoodBad === "goodToBad") {
+            return b.vote_average - a.vote_average;
+          } else if (sortGoodBad === "badToGood") {
+            return a.vote_average - b.vote_average;
+          }
+        })
         .map((movie) => (
           <Card key={movie.id} movie={movie}/>
         ))}
